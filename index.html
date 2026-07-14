@@ -142,7 +142,12 @@
   .dot-r{background:#FF5F57}.dot-y{background:#FEBC2E}.dot-g{background:var(--neon)}
   .reader-bar .file-name{margin-left:10px;font-family:var(--font-mono);font-size:.82rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .reader-frame{position:relative;height:78vh;min-height:520px;background:#101010;}
-  .reader-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .reader-frame object,.reader-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#101010;}
+  .reader-frame iframe{display:block;}
+  .reader-unavailable{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;color:var(--muted);}
+  .reader-unavailable[hidden]{display:none;}
+  .reader-unavailable .ru-icon{font-family:var(--font-mono);font-weight:600;font-size:.8rem;letter-spacing:.1em;color:var(--neon);border:1px solid rgba(204,255,0,.4);border-radius:12px;padding:10px 16px;background:rgba(204,255,0,.06);}
+  .reader-unavailable p{max-width:320px;font-size:.92rem;}
   .reader-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--muted);font-size:.9rem;}
   .spinner{width:42px;height:42px;border-radius:50%;border:3px solid rgba(204,255,0,.15);border-top-color:var(--neon);animation:spin 1s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -271,7 +276,14 @@
             <div class="spinner"></div>
             <span>Загружаем гайд…</span>
           </div>
-          <iframe id="pdfFrame" title="Гайд «Claude с нуля» — PDF-читалка" loading="lazy" allow="fullscreen"></iframe>
+          <object id="pdfObject" data="./claude_s_nulya.pdf#toolbar=1&view=FitH" type="application/pdf" aria-label="Гайд «Claude с нуля»">
+            <iframe id="pdfFrame" src="./claude_s_nulya.pdf" title="Гайд «Claude с нуля» — PDF-читалка" loading="lazy"></iframe>
+          </object>
+          <div class="reader-unavailable" id="pdfUnavailable" hidden>
+            <div class="ru-icon">PDF</div>
+            <p>Встроенный просмотр не поддерживается в этом браузере.</p>
+            <a href="./claude_s_nulya.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-neon" style="padding:14px 28px;">Открыть гайд →</a>
+          </div>
         </div>
         <div class="reader-fallback">
           <span>Окно не загрузилось?</span>
@@ -400,22 +412,41 @@
     });
   });
 
-  // ===== Инициализация PDF-ридера (Google Docs Viewer) =====
+  // ===== Инициализация PDF-ридера (прямая отдача файла) =====
   (function(){
-    var frame=document.getElementById('pdfFrame');
     var loader=document.getElementById('pdfLoader');
-    // Абсолютный URL файла — Google Viewer не принимает относительные пути
-    var pdfUrl=new URL('./claude_s_nulya.pdf',window.location.href).href;
-    var viewerUrl='https://docs.google.com/viewer?embedded=true&url='+encodeURIComponent(pdfUrl);
-    frame.src=viewerUrl;
-    frame.addEventListener('load',function(){ loader.style.display='none'; });
-    // Google Viewer иногда «молчит» — до 2 авто-перезагрузок с интервалом 8 сек
-    var attempts=0;
-    var retry=setInterval(function(){
-      if(loader.style.display==='none'||attempts>=2){clearInterval(retry);return;}
-      attempts++;
-      frame.src=viewerUrl;
-    },8000);
+    var obj=document.getElementById('pdfObject');
+    var frame=document.getElementById('pdfFrame');
+    var unavailable=document.getElementById('pdfUnavailable');
+    var settled=false;
+
+    function hideLoader(){ if(loader) loader.style.display='none'; }
+    function ready(){
+      if(settled) return; settled=true;
+      hideLoader();
+    }
+    function showFallback(){
+      if(settled) return; settled=true;
+      hideLoader();
+      if(obj) obj.style.display='none';
+      if(unavailable) unavailable.hidden=false;
+    }
+
+    // Если объект/фрейм успел загрузиться — прячем лоадер
+    if(obj) obj.addEventListener('load', ready);
+    if(frame) frame.addEventListener('load', ready);
+
+    // Страховка: если за 2.5 сек PDF не отрисовался (мобильный Safari и т.п.),
+    // проверяем, есть ли у object содержимое; если нет — показываем запасную карточку.
+    setTimeout(function(){
+      if(settled){ return; }
+      var rendered=false;
+      try{
+        // У успешно встроенного PDF object обычно ненулевая высота содержимого
+        rendered = obj && (obj.offsetHeight > 40);
+      }catch(e){ rendered=false; }
+      if(rendered){ ready(); } else { showFallback(); }
+    },2500);
   })();
 
   // ===== Появление блоков при скролле =====
