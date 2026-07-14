@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CLAUDE С НУЛЯ — бесплатный гайд по ИИ | AKU</title>
-<meta name="description" content="Полноценное практическое руководство по запуску Claude, генерации контента и автоматизации бизнес-процессов в 2026 году. Читайте бесплатно онлайн.">
+<title>CLAUDE С НУЛЯ — бесплатный гайд по ИИ 2026 | AKU Ecosystem</title>
+<meta name="description" content="Практическое руководство по Claude: запуск, генерация контента, автоматизация бизнес-процессов и заработок на ИИ в 2026 году. Читайте бесплатно онлайн, без скачивания.">
+<meta property="og:title" content="CLAUDE С НУЛЯ — бесплатный гайд по ИИ">
+<meta property="og:description" content="10 блоков практики: промты, автоматизация, Claude Code, MCP, заработок на ИИ. Читается со смартфона.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0D0D0D;
@@ -19,8 +22,10 @@
     --text:#F5F5F5;
     --muted:#9A9A9A;
     --radius:24px;
+    --blue:#2F6BFF; --red:#DB2022; --gold:#FFB020; --purple:#8A2BE2;
     --font-display:'Space Grotesk',sans-serif;
     --font-body:'Inter',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -28,11 +33,10 @@
     background:var(--bg);
     color:var(--text);
     font-family:var(--font-body);
-    line-height:1.6;
+    line-height:1.62;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  /* Фоновая неоновая сетка */
   body::before{
     content:"";
     position:fixed;inset:0;
@@ -43,285 +47,217 @@
     pointer-events:none;
     z-index:0;
   }
-  main,header,footer{position:relative;z-index:1}
-  .container{width:100%;max-width:1100px;margin:0 auto;padding:0 20px}
+  header,main,footer{position:relative;z-index:1}
+  .container{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+  a{color:inherit}
 
   /* ===== Хедер ===== */
   .site-header{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:22px 0;
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,13,13,.72);
+    backdrop-filter:saturate(160%) blur(14px);
+    -webkit-backdrop-filter:saturate(160%) blur(14px);
+    border-bottom:1px solid var(--line);
   }
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
   .logo{
     font-family:var(--font-display);
-    font-weight:700;font-size:1.4rem;letter-spacing:.06em;
-    color:var(--text);text-decoration:none;
-    display:inline-flex;align-items:center;gap:10px;
+    font-weight:700;font-size:1.15rem;letter-spacing:.06em;
+    text-decoration:none;display:inline-flex;align-items:center;gap:10px;
   }
   .logo-mark{
-    width:34px;height:34px;border-radius:10px;
+    width:32px;height:32px;border-radius:9px;
     background:var(--neon);color:#0D0D0D;
     display:inline-flex;align-items:center;justify-content:center;
-    font-size:.85rem;font-weight:700;
-    box-shadow:0 0 24px var(--neon-dim);
+    font-size:.72rem;font-weight:700;
+    box-shadow:0 0 22px var(--neon-dim);
   }
-  .header-tag{
-    font-size:.75rem;color:var(--muted);
-    border:1px solid var(--line);border-radius:999px;
-    padding:6px 14px;white-space:nowrap;
+  .header-cta{
+    font-family:var(--font-display);font-weight:600;font-size:.85rem;
+    text-decoration:none;color:var(--neon);
+    border:1px solid rgba(204,255,0,.4);border-radius:999px;
+    padding:9px 18px;transition:background .3s,box-shadow .3s;
+    white-space:nowrap;
   }
+  .header-cta:hover{background:rgba(204,255,0,.08);box-shadow:0 0 22px var(--neon-dim);}
 
   /* ===== Hero ===== */
   .hero{
-    padding:64px 0 80px;
-    text-align:center;
-    display:flex;flex-direction:column;align-items:center;gap:26px;
+    padding:72px 0 66px;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:24px;
   }
   .hero-badge{
-    font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    font-family:var(--font-mono);
+    font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
     color:var(--neon);
-    border:1px solid rgba(204,255,0,.35);
-    background:rgba(204,255,0,.06);
+    border:1px solid rgba(204,255,0,.35);background:rgba(204,255,0,.06);
     border-radius:999px;padding:8px 18px;
   }
   .hero h1{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:clamp(2rem,6.4vw,4rem);
-    line-height:1.08;
-    letter-spacing:-.01em;
-    max-width:900px;
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(2.1rem,6.6vw,4.1rem);
+    line-height:1.07;letter-spacing:-.01em;max-width:920px;
   }
-  .hero h1 .neon{
-    color:var(--neon);
-    text-shadow:0 0 40px rgba(204,255,0,.4);
+  .hero h1 .neon{color:var(--neon);text-shadow:0 0 40px rgba(204,255,0,.4);}
+  .hero .subtitle{
+    font-family:var(--font-display);font-weight:500;
+    font-size:clamp(1rem,2.6vw,1.35rem);color:#E8E8E8;
   }
-  .hero p{
-    color:var(--muted);
-    font-size:clamp(1rem,2.4vw,1.2rem);
-    max-width:640px;
-  }
+  .hero p.lead{color:var(--muted);font-size:clamp(1rem,2.4vw,1.15rem);max-width:640px;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:4px;}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    font-family:var(--font-display);font-weight:600;
-    font-size:1rem;
-    padding:16px 34px;border-radius:999px;
-    text-decoration:none;cursor:pointer;border:none;
+    font-family:var(--font-display);font-weight:600;font-size:1rem;
+    padding:16px 32px;border-radius:999px;text-decoration:none;cursor:pointer;border:none;
     transition:transform .3s ease,box-shadow .3s ease,background .3s ease,color .3s ease;
   }
-  .btn-neon{
-    background:var(--neon);color:#0D0D0D;
-    box-shadow:0 0 32px rgba(204,255,0,.28);
+  .btn-neon{background:var(--neon);color:#0D0D0D;box-shadow:0 0 32px rgba(204,255,0,.28);}
+  .btn-neon:hover{transform:translateY(-3px);box-shadow:0 0 56px rgba(204,255,0,.5);}
+  .btn-ghost{background:transparent;color:var(--neon);border:1px solid rgba(204,255,0,.45);}
+  .btn-ghost:hover{background:rgba(204,255,0,.08);box-shadow:0 0 28px var(--neon-dim);transform:translateY(-2px);}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;color:var(--muted);font-size:.82rem;margin-top:8px;}
+  .hero-meta span{border:1px solid var(--line);border-radius:999px;padding:7px 15px;background:rgba(255,255,255,.02);font-family:var(--font-mono);font-size:.72rem;}
+
+  /* ===== Секции ===== */
+  section{padding:44px 0;}
+  .section-head{text-align:center;margin-bottom:34px;}
+  .section-head .eyebrow{
+    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--neon);margin-bottom:12px;
   }
-  .btn-neon:hover{
-    transform:translateY(-3px);
-    box-shadow:0 0 56px rgba(204,255,0,.5);
-  }
-  .btn-ghost{
-    background:transparent;color:var(--neon);
-    border:1px solid rgba(204,255,0,.45);
-  }
-  .btn-ghost:hover{
-    background:rgba(204,255,0,.08);
-    box-shadow:0 0 28px var(--neon-dim);
-    transform:translateY(-2px);
-  }
-  .hero-meta{
-    display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
-    color:var(--muted);font-size:.85rem;
-  }
-  .hero-meta span{
-    border:1px solid var(--line);border-radius:999px;padding:7px 16px;
-    background:rgba(255,255,255,.02);
-  }
+  .section-head h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.01em;}
+  .section-head p{color:var(--muted);margin-top:10px;font-size:1rem;max-width:560px;margin-left:auto;margin-right:auto;}
 
   /* ===== PDF-ридер ===== */
-  .reader-section{padding:20px 0 90px}
-  .section-head{text-align:center;margin-bottom:34px}
-  .section-head h2{
-    font-family:var(--font-display);font-weight:700;
-    font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.01em;
-  }
-  .section-head p{color:var(--muted);margin-top:10px;font-size:1rem}
+  #reader{padding-top:16px;}
   .reader-shell{
     max-width:900px;margin:0 auto;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
-    box-shadow:0 30px 80px rgba(0,0,0,.55);
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);
     transition:box-shadow .3s ease,border-color .3s ease;
   }
-  .reader-shell:hover{
-    border-color:rgba(204,255,0,.3);
-    box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 46px var(--neon-dim);
-  }
-  .reader-bar{
-    display:flex;align-items:center;gap:8px;
-    padding:14px 20px;
-    background:var(--card-2);
-    border-bottom:1px solid var(--line);
-  }
+  .reader-shell:hover{border-color:rgba(204,255,0,.3);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 46px var(--neon-dim);}
+  .reader-bar{display:flex;align-items:center;gap:8px;padding:14px 20px;background:var(--card-2);border-bottom:1px solid var(--line);}
   .reader-bar .dot{width:10px;height:10px;border-radius:50%}
   .dot-r{background:#FF5F57}.dot-y{background:#FEBC2E}.dot-g{background:var(--neon)}
-  .reader-bar .file-name{
-    margin-left:10px;
-    font-family:var(--font-display);font-size:.85rem;color:var(--muted);
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  }
-  .reader-frame{
-    position:relative;
-    height:75vh;min-height:480px;
-    background:#101010;
-  }
-  .reader-frame iframe{
-    position:absolute;inset:0;
-    width:100%;height:100%;border:0;
-  }
-  .reader-loader{
-    position:absolute;inset:0;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-    color:var(--muted);font-size:.9rem;
-  }
-  .spinner{
-    width:42px;height:42px;border-radius:50%;
-    border:3px solid rgba(204,255,0,.15);
-    border-top-color:var(--neon);
-    animation:spin 1s linear infinite;
-  }
+  .reader-bar .file-name{margin-left:10px;font-family:var(--font-mono);font-size:.82rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .reader-frame{position:relative;height:78vh;min-height:520px;background:#101010;}
+  .reader-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .reader-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--muted);font-size:.9rem;}
+  .spinner{width:42px;height:42px;border-radius:50%;border:3px solid rgba(204,255,0,.15);border-top-color:var(--neon);animation:spin 1s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .reader-fallback{
-    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;
-    padding:18px 20px;
-    background:var(--card-2);
-    border-top:1px solid var(--line);
-    color:var(--muted);font-size:.88rem;text-align:center;
+  .reader-fallback{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;padding:18px 20px;background:var(--card-2);border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;}
+
+  /* ===== Оглавление гайда ===== */
+  .toc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:920px;margin:0 auto;}
+  .toc-item{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+    transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
   }
+  .toc-item:hover{border-color:rgba(204,255,0,.35);transform:translateY(-3px);box-shadow:0 0 30px var(--neon-dim);}
+  .toc-num{font-family:var(--font-mono);font-size:.9rem;color:var(--neon);font-weight:600;min-width:26px;}
+  .toc-text{font-size:.95rem;color:#E4E4E4;line-height:1.4;}
+
+  /* ===== Кому полезно ===== */
+  .who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:0 auto;}
+  .who-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 22px;transition:border-color .3s ease,transform .3s ease;}
+  .who-card:hover{border-color:rgba(204,255,0,.3);transform:translateY(-4px);}
+  .who-card .ic{font-family:var(--font-display);font-weight:700;font-size:1.4rem;color:var(--neon);margin-bottom:10px;}
+  .who-card h3{font-family:var(--font-display);font-size:1.05rem;font-weight:600;margin-bottom:8px;}
+  .who-card p{color:var(--muted);font-size:.9rem;}
 
   /* ===== Экосистема ===== */
-  .eco-section{padding:20px 0 90px}
-  .eco-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:24px;
-  }
-  .eco-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:34px 30px;
-    display:flex;flex-direction:column;gap:16px;
-    transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
-  }
-  .eco-card:hover{
-    transform:translateY(-6px);
-    border-color:rgba(204,255,0,.35);
-    box-shadow:0 0 46px var(--neon-dim),0 24px 60px rgba(0,0,0,.5);
-  }
-  .eco-eyebrow{
-    font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-    display:inline-flex;align-items:center;gap:8px;color:var(--muted);
-  }
-  .eco-eyebrow::before{
-    content:"";width:8px;height:8px;border-radius:50%;
-    background:var(--dot,#CCFF00);
-    box-shadow:0 0 12px var(--dot,#CCFF00);
-  }
-  .eco-card h3{
-    font-family:var(--font-display);font-weight:700;font-size:1.4rem;
-  }
-  .eco-card p{color:var(--muted);font-size:.95rem;flex-grow:1}
-  .eco-card .btn{align-self:flex-start;padding:12px 26px;font-size:.9rem}
+  .eco-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+  .eco-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 28px;display:flex;flex-direction:column;gap:14px;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;}
+  .eco-card:hover{transform:translateY(-6px);border-color:rgba(204,255,0,.35);box-shadow:0 0 46px var(--neon-dim),0 24px 60px rgba(0,0,0,.5);}
+  .eco-eyebrow{font-family:var(--font-mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;color:var(--muted);}
+  .eco-eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--dot,#CCFF00);box-shadow:0 0 12px var(--dot,#CCFF00);}
+  .eco-card h3{font-family:var(--font-display);font-weight:700;font-size:1.35rem;}
+  .eco-card p{color:var(--muted);font-size:.94rem;flex-grow:1;}
+  .eco-card .btn{align-self:flex-start;padding:12px 24px;font-size:.9rem;}
 
   /* ===== Финальный CTA ===== */
-  .final-cta{padding:10px 0 60px}
   .cta-banner{
-    background:
-      radial-gradient(120% 160% at 50% -20%,rgba(204,255,0,.16),transparent 60%),
-      var(--card);
-    border:1px solid rgba(204,255,0,.25);
-    border-radius:32px;
-    padding:70px 28px;
-    text-align:center;
-    display:flex;flex-direction:column;align-items:center;gap:24px;
+    background:radial-gradient(120% 160% at 50% -20%,rgba(204,255,0,.16),transparent 60%),var(--card);
+    border:1px solid rgba(204,255,0,.25);border-radius:32px;
+    padding:64px 28px;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:22px;
     box-shadow:0 0 60px rgba(204,255,0,.07);
   }
-  .cta-banner h2{
-    font-family:var(--font-display);font-weight:700;
-    font-size:clamp(1.7rem,5vw,3rem);letter-spacing:-.01em;
-    max-width:700px;line-height:1.15;
-  }
-  .cta-banner p{color:var(--muted);max-width:520px}
-  .btn-big{
-    font-size:clamp(.95rem,2.5vw,1.15rem);
-    padding:20px 44px;
-    text-transform:uppercase;letter-spacing:.05em;
-  }
+  .cta-banner h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.7rem,5vw,2.8rem);letter-spacing:-.01em;max-width:720px;line-height:1.15;}
+  .cta-banner p{color:var(--muted);max-width:520px;}
+  .btn-big{font-size:clamp(.95rem,2.5vw,1.15rem);padding:20px 42px;text-transform:uppercase;letter-spacing:.05em;}
 
   /* ===== Футер ===== */
-  .site-footer{
-    border-top:1px solid var(--line);
-    padding:30px 0 40px;
-    display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
-    color:var(--muted);font-size:.85rem;
-  }
+  .site-footer{border-top:1px solid var(--line);padding:30px 0 46px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;color:var(--muted);font-size:.85rem;}
   .site-footer a{color:var(--neon);text-decoration:none;transition:opacity .3s ease}
   .site-footer a:hover{opacity:.75}
 
-  /* ===== Появление при скролле ===== */
+  /* ===== Reveal ===== */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
   .reveal.visible{opacity:1;transform:translateY(0)}
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
-    .btn,.eco-card,.reader-shell{transition:none}
+    .btn,.eco-card,.reader-shell,.toc-item,.who-card{transition:none}
     .spinner{animation:none}
   }
-  .btn:focus-visible,a:focus-visible{
-    outline:2px solid var(--neon);outline-offset:3px;border-radius:999px;
-  }
+  .btn:focus-visible,a:focus-visible{outline:2px solid var(--neon);outline-offset:3px;border-radius:999px;}
 
-  /* ===== Мобильная адаптация ===== */
-  @media (max-width:760px){
-    .hero{padding:44px 0 60px}
+  /* ===== Адаптив ===== */
+  @media (max-width:820px){
     .eco-grid{grid-template-columns:1fr}
-    .header-tag{display:none}
-    .reader-section .container{padding:0 8px}
+    .who-grid{grid-template-columns:1fr}
+    .toc-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:600px){
+    .hero{padding:52px 0 48px}
+    .header-cta{display:none}
+    section{padding:36px 0}
+    #reader .container{padding:0 8px}
     .reader-shell{border-radius:18px}
-    .reader-frame{height:72vh;min-height:420px}
-    .cta-banner{padding:54px 20px}
+    .reader-frame{height:76vh;min-height:440px}
+    .cta-banner{padding:50px 20px}
     .site-footer{justify-content:center;text-align:center}
   }
 </style>
 </head>
 <body>
 
-<header class="container">
-  <div class="site-header">
+<header class="site-header">
+  <div class="container header-inner">
     <a class="logo" href="https://akumedia.github.io/-AKU/" target="_blank" rel="noopener noreferrer">
       <span class="logo-mark">AKU</span> ECOSYSTEM
     </a>
-    <span class="header-tag">Бесплатный гайд · 2026</span>
+    <a class="header-cta" href="https://t.me/Alekseii_AI" target="_blank" rel="noopener noreferrer">Телеграм Алексея →</a>
   </div>
 </header>
 
 <main>
-  <!-- ===== Блок 1: Hero ===== -->
+  <!-- ===== Hero ===== -->
   <section class="hero container">
-    <span class="hero-badge reveal">Лид-магнит · Практическое руководство</span>
+    <span class="hero-badge reveal">Бесплатный гайд · 2026</span>
     <h1 class="reveal"><span class="neon">CLAUDE</span> С НУЛЯ: ИИ, КОТОРЫЙ ПИШЕТ КАК ЧЕЛОВЕК</h1>
-    <p class="reveal">Полноценное практическое руководство по запуску, генерации контента и автоматизации бизнес-процессов в 2026 году.</p>
-    <a href="#reader" class="btn btn-neon reveal">Читать гайд бесплатно ↓</a>
+    <div class="subtitle reveal">Практическое руководство по ИИ для бизнеса и контента</div>
+    <p class="lead reveal">Запуск, генерация контента и автоматизация бизнес-процессов в 2026 году. 10 блоков практики без воды — читается прямо со смартфона.</p>
+    <div class="hero-actions reveal">
+      <a href="#reader" class="btn btn-neon">Читать гайд бесплатно ↓</a>
+      <a href="./claude_s_nulya.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Скачать PDF</a>
+    </div>
     <div class="hero-meta reveal">
       <span>Без регистрации</span>
-      <span>Без скачивания</span>
-      <span>Читается с телефона</span>
+      <span>10 блоков</span>
+      <span>~40 минут</span>
+      <span>Claude 5 / MCP / агенты</span>
     </div>
   </section>
 
-  <!-- ===== Блок 2: PDF-ридер ===== -->
-  <section class="reader-section" id="reader">
+  <!-- ===== PDF-ридер ===== -->
+  <section id="reader">
     <div class="container">
       <div class="section-head reveal">
+        <div class="eyebrow">Читалка</div>
         <h2>Читайте прямо здесь</h2>
         <p>Листайте гайд внутри окна — на смартфоне и на ПК, без скачивания.</p>
       </div>
@@ -345,10 +281,61 @@
     </div>
   </section>
 
-  <!-- ===== Блок 3: Экосистема AKU ===== -->
-  <section class="eco-section">
+  <!-- ===== Что внутри (оглавление) ===== -->
+  <section id="content">
     <div class="container">
       <div class="section-head reveal">
+        <div class="eyebrow">Что внутри</div>
+        <h2>10 блоков — от первого промта до заработка</h2>
+        <p>Можно читать подряд, можно использовать как справочник.</p>
+      </div>
+      <div class="toc-grid">
+        <div class="toc-item reveal"><span class="toc-num">01</span><span class="toc-text">Почему Claude, а не ChatGPT — архитектура, «человеческий» текст, длинный контекст</span></div>
+        <div class="toc-item reveal"><span class="toc-num">02</span><span class="toc-text">Запуск и оплата из СНГ без головной боли — рабочие легальные пути</span></div>
+        <div class="toc-item reveal"><span class="toc-num">03</span><span class="toc-text">Анатомия идеального промта: Роль → Контекст → Задача → Ограничения</span></div>
+        <div class="toc-item reveal"><span class="toc-num">04</span><span class="toc-text">Claude для контента и SMM — как обучить его вашему Tone of Voice</span></div>
+        <div class="toc-item reveal"><span class="toc-num">05</span><span class="toc-text">Интеграция в бизнес-процессы: CRM, Make/n8n, Webhooks, MCP</span></div>
+        <div class="toc-item reveal"><span class="toc-num">06</span><span class="toc-text">Секретное оружие: Artifacts и Claude Code без навыков программирования</span></div>
+        <div class="toc-item reveal"><span class="toc-num">07</span><span class="toc-text">5 готовых промтов «скопировал — вставил» для реальных задач</span></div>
+        <div class="toc-item reveal"><span class="toc-num">08</span><span class="toc-text">Как зарабатывать на знании Claude — ниши и чеки на рынке СНГ</span></div>
+        <div class="toc-item reveal"><span class="toc-num">09</span><span class="toc-text">Системные ошибки: галлюцинации и human-in-the-loop</span></div>
+        <div class="toc-item reveal"><span class="toc-num">10</span><span class="toc-text">Финал и твой личный ИИ-хаб — что делать дальше</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Кому полезно ===== -->
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Кому зайдёт</div>
+        <h2>Гайд для тех, кто зарабатывает головой</h2>
+      </div>
+      <div class="who-grid">
+        <div class="who-card reveal">
+          <div class="ic">01</div>
+          <h3>Авторам и SMM</h3>
+          <p>Поставить контент на конвейер, сохранив голос бренда, и перестать выгорать над постами.</p>
+        </div>
+        <div class="who-card reveal">
+          <div class="ic">02</div>
+          <h3>Предпринимателям</h3>
+          <p>Встроить ИИ в продажи и рутину, посчитать экономию в деньгах до старта внедрения.</p>
+        </div>
+        <div class="who-card reveal">
+          <div class="ic">03</div>
+          <h3>Фрилансерам</h3>
+          <p>Освоить нишу ИИ-интеграций и консалтинга — от аудита процессов до проектов под ключ.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Экосистема AKU ===== -->
+  <section id="ecosystem">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Монетизация</div>
         <h2>Интегрируйте ИИ в свой бизнес и контент</h2>
         <p>Гайд — это старт. Внедрение под ключ — это экосистема AKU.</p>
       </div>
@@ -381,12 +368,12 @@
     </div>
   </section>
 
-  <!-- ===== Блок 4: Финальный лидген ===== -->
-  <section class="final-cta">
+  <!-- ===== Финальный CTA ===== -->
+  <section>
     <div class="container">
       <div class="cta-banner reveal">
         <h2>Узнавайте об ИИ-трендах первыми</h2>
-        <p>Разборы нейросетей, кейсы автоматизации и рабочие связки — коротко и по делу.</p>
+        <p>Разборы нейросетей, кейсы автоматизации и рабочие связки — коротко и по делу, каждый день.</p>
         <a class="btn btn-neon btn-big" href="https://t.me/Alekseii_AI" target="_blank" rel="noopener noreferrer">Подписаться на Телеграм Алексея</a>
       </div>
     </div>
@@ -401,7 +388,7 @@
 </footer>
 
 <script>
-  // ===== Плавная прокрутка (fallback для якорных ссылок) =====
+  // ===== Плавная прокрутка по якорям =====
   document.querySelectorAll('a[href^="#"]').forEach(function(link){
     link.addEventListener('click',function(e){
       var target=document.querySelector(link.getAttribute('href'));
@@ -413,18 +400,16 @@
     });
   });
 
-  // ===== Подключение PDF через Google Docs Viewer =====
+  // ===== Инициализация PDF-ридера (Google Docs Viewer) =====
   (function(){
     var frame=document.getElementById('pdfFrame');
     var loader=document.getElementById('pdfLoader');
-    // Абсолютный URL файла (нужен для Google Viewer на GitHub Pages)
+    // Абсолютный URL файла — Google Viewer не принимает относительные пути
     var pdfUrl=new URL('./claude_s_nulya.pdf',window.location.href).href;
     var viewerUrl='https://docs.google.com/viewer?embedded=true&url='+encodeURIComponent(pdfUrl);
     frame.src=viewerUrl;
-    frame.addEventListener('load',function(){
-      loader.style.display='none';
-    });
-    // Google Viewer иногда «молчит» — авто-перезагрузка через 8 секунд, максимум 2 попытки
+    frame.addEventListener('load',function(){ loader.style.display='none'; });
+    // Google Viewer иногда «молчит» — до 2 авто-перезагрузок с интервалом 8 сек
     var attempts=0;
     var retry=setInterval(function(){
       if(loader.style.display==='none'||attempts>=2){clearInterval(retry);return;}
