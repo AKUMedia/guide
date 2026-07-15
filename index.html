@@ -183,7 +183,35 @@
   .eco-card .btn{align-self:flex-start;padding:12px 24px;font-size:.9rem;}
 
   /* ===== Финальный CTA ===== */
-  .cta-banner{
+  /* ===== Рекламный блок партнёра ===== */
+  .ad-card{
+    position:relative;max-width:900px;margin:0 auto;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 30px 28px;overflow:hidden;
+    transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease;
+  }
+  .ad-card:hover{border-color:rgba(247,147,26,.4);box-shadow:0 0 46px rgba(247,147,26,.12),0 24px 60px rgba(0,0,0,.5);transform:translateY(-4px);}
+  .ad-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
+  .ad-brand{display:flex;align-items:center;gap:14px;}
+  .ad-logo{width:52px;height:52px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#F7931A,#2F6BFF);color:#fff;font-family:var(--font-display);font-weight:700;font-size:1.3rem;
+    box-shadow:0 0 22px rgba(247,147,26,.3);}
+  .ad-brand h3{font-family:var(--font-display);font-weight:700;font-size:1.5rem;line-height:1;}
+  .ad-brand .ad-label{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .ad-tag{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 13px;white-space:nowrap;}
+  .ad-card p{color:var(--muted);font-size:1rem;max-width:640px;margin-bottom:22px;}
+  .ad-cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:1rem;
+    text-decoration:none;color:#0D0D0D;background:#F7931A;border-radius:999px;padding:14px 28px;
+    box-shadow:0 0 28px rgba(247,147,26,.28);transition:transform .3s ease,box-shadow .3s ease;}
+  .ad-cta:hover{transform:translateY(-2px);box-shadow:0 0 46px rgba(247,147,26,.5);}
+
+  /* карточка Binibit в сетке проектов */
+  .eco-card.is-ad{border-color:rgba(247,147,26,.3);}
+  .eco-card.is-ad:hover{border-color:rgba(247,147,26,.55);box-shadow:0 0 46px rgba(247,147,26,.14),0 24px 60px rgba(0,0,0,.5);}
+  .eco-card.is-ad .btn{color:#0D0D0D;background:#F7931A;border:none;box-shadow:0 0 22px rgba(247,147,26,.28);}
+  .eco-card.is-ad .btn:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(247,147,26,.5);background:#F7931A;}
+
+    .cta-banner{
     background:radial-gradient(120% 160% at 50% -20%,rgba(204,255,0,.16),transparent 60%),var(--card);
     border:1px solid rgba(204,255,0,.25);border-radius:32px;
     padding:64px 28px;text-align:center;
@@ -227,6 +255,14 @@
     .site-footer{justify-content:center;text-align:center}
   }
 </style>
+<!-- ===== Google Analytics 4 — вставьте свой ID вместо G-XXXXXXXXXX ===== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 </head>
 <body>
 
@@ -247,8 +283,8 @@
     <div class="subtitle reveal">Практическое руководство по ИИ для бизнеса и контента</div>
     <p class="lead reveal">Запуск, генерация контента и автоматизация бизнес-процессов в 2026 году. 10 блоков практики без воды — читается прямо со смартфона.</p>
     <div class="hero-actions reveal">
-      <a href="#reader" class="btn btn-neon">Читать гайд бесплатно ↓</a>
-      <a href="./claude_s_nulya.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Скачать PDF</a>
+      <a href="#reader" class="btn btn-neon" data-track="read_guide">Читать гайд бесплатно ↓</a>
+      <a href="./claude_s_nulya.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" data-track="download_pdf">Скачать PDF</a>
     </div>
     <div class="hero-meta reveal">
       <span>Без регистрации</span>
@@ -376,6 +412,36 @@
           <p>Маркетплейс готовых ИИ-скриптов, шаблонов автоматизации и рабочих ИТ-решений для быстрого старта.</p>
           <a class="btn btn-ghost" href="https://akumedia.github.io/AKU-Solutions/" target="_blank" rel="noopener noreferrer">Перейти →</a>
         </article>
+        <article class="eco-card is-ad reveal" style="--dot:#F7931A;">
+          <span class="eco-eyebrow" style="color:#F7931A;">Реклама · партнёр</span>
+          <h3>Binibit</h3>
+          <p>Крипто-биржа нового поколения. Торгуй, зарабатывай и выводи средства без лишних комиссий. Регистрируйся по ссылке.</p>
+          <a class="btn" href="https://binibit.com/?i=14zqha" target="_blank" rel="noopener noreferrer sponsored" data-track="binibit_grid">Открыть Binibit →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Рекламный блок партнёра (Binibit) ===== -->
+  <section id="partner">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Реклама · партнёр</div>
+        <h2>Партнёр гайда</h2>
+      </div>
+      <div class="ad-card reveal">
+        <div class="ad-head">
+          <div class="ad-brand">
+            <div class="ad-logo">B</div>
+            <div>
+              <div class="ad-label">Реклама · партнёр</div>
+              <h3>Binibit</h3>
+            </div>
+          </div>
+          <span class="ad-tag">Crypto Exchange</span>
+        </div>
+        <p>Binibit — крипто-биржа нового поколения. Торгуй, зарабатывай и выводи средства без лишних комиссий. Регистрируйся по ссылке и начни в пару кликов.</p>
+        <a class="ad-cta" href="https://binibit.com/?i=14zqha" target="_blank" rel="noopener noreferrer sponsored" data-track="binibit_main">Открыть Binibit →</a>
       </div>
     </div>
   </section>
@@ -467,6 +533,44 @@
     },{threshold:.12});
     items.forEach(function(el){io.observe(el);});
   })();
+
+  // ===== Отслеживание событий (открытие гайда + клики по рекламе) =====
+  (function(){
+    function send(name, params){
+      try{ if(typeof gtag==='function'){ gtag('event', name, params||{}); } }catch(e){}
+    }
+    // 1) Открытие гайда: считаем один просмотр читалки за сессию
+    var reader=document.getElementById('reader');
+    var firedOpen=false;
+    function fireGuideOpen(){
+      if(firedOpen) return; firedOpen=true;
+      // локальный счётчик (виден в консоли: localStorage.guide_opens)
+      try{
+        var n=parseInt(localStorage.getItem('guide_opens')||'0',10)+1;
+        localStorage.setItem('guide_opens', n);
+      }catch(e){}
+      send('guide_open', {event_category:'guide', event_label:'claude_s_nulya'});
+    }
+    if(reader && 'IntersectionObserver' in window){
+      var ro=new IntersectionObserver(function(en){
+        en.forEach(function(e){ if(e.isIntersecting){ fireGuideOpen(); ro.disconnect(); }});
+      },{threshold:.35});
+      ro.observe(reader);
+    } else { fireGuideOpen(); }
+
+    // 2) Клики по рекламным ссылкам и по кнопке "Читать/Скачать"
+    document.querySelectorAll('[data-track]').forEach(function(el){
+      el.addEventListener('click', function(){
+        send('cta_click', {event_category:'cta', event_label: el.getAttribute('data-track')});
+      });
+    });
+    document.querySelectorAll('a[href*="binibit.com"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        send('partner_click', {event_category:'ads', event_label:'binibit'});
+      });
+    });
+  })();
+
 </script>
 </body>
 </html>
